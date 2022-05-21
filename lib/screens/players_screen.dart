@@ -21,7 +21,6 @@ class _PlayerScreenState extends State<PlayersScreen> {
   void initState() {
     super.initState();
     onDeleteMode = false;
-    throw ("Error");
   }
 
   @override
