@@ -1,3 +1,4 @@
+import 'package:el_lobo/screens/player_storage/edit_player_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:el_lobo/components/player_selectible.dart';

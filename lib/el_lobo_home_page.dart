@@ -1,4 +1,4 @@
-import 'package:el_lobo/screens/players_screen.dart';
+import 'package:el_lobo/screens/player_storage/players_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:el_lobo/el_lobo_icons.dart';

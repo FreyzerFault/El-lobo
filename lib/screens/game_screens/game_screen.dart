@@ -1,9 +1,9 @@
-import 'package:el_lobo/screens/day_screen.dart';
-import 'package:el_lobo/screens/night_screen.dart';
+import 'package:el_lobo/screens/game_screens/day_screen.dart';
+import 'package:el_lobo/screens/game_screens/night_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:provider/provider.dart';
-import 'screens.dart';
+import '../screens.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key,}) : super(key: key);

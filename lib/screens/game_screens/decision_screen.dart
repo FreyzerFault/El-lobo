@@ -34,8 +34,7 @@ class _DecisionScreenState extends State<DecisionScreen> {
     players = widget.game.getPlayersOfRol(widget.rol);
     targetablePlayers = widget.game.getPlayersNotOfRol(widget.rol);
 
-    return Scaffold(
-        body: OrientationBuilder(
+    return OrientationBuilder(
             builder: (context, orientation) =>
                 orientation == Orientation.portrait
                     ? ListView(
@@ -65,7 +64,7 @@ class _DecisionScreenState extends State<DecisionScreen> {
                               ],
                             )),
                             _buildPlayerGrid(),
-                          ])));
+                          ]));
   }
 
   Icon _buildIcon() => Icon(

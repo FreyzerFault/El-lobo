@@ -2,7 +2,7 @@ import 'package:el_lobo/components/player_grid.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:flutter/material.dart';
 
-import 'screens.dart';
+import 'edit_player_screen.dart';
 
 class PlayersScreen extends StatefulWidget {
   final AppManager manager;

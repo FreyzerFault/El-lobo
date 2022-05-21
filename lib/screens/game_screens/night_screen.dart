@@ -1,5 +1,5 @@
 import 'package:el_lobo/components/components.dart';
-import 'package:el_lobo/screens/decision_screen.dart';
+import 'package:el_lobo/screens/game_screens/decision_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:el_lobo/el_lobo_icons.dart';

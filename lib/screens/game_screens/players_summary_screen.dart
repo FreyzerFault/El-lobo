@@ -1,5 +1,5 @@
 import 'package:el_lobo/components/player_card.dart';
-import 'package:el_lobo/screens/player_info_screen.dart';
+import 'package:el_lobo/screens/game_screens/player_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
 
