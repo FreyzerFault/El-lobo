@@ -1,4 +1,4 @@
-import 'package:el_lobo/el_lobo_icons.dart';
+import 'package:el_lobo/utils/el_lobo_icons.dart';
 import 'package:flutter/material.dart';
 
 class Rol

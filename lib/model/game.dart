@@ -1,3 +1,4 @@
+import 'package:el_lobo/model/game_cycle.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quiver/collection.dart';
@@ -17,6 +18,9 @@ class Game extends ChangeNotifier {
   /// Ultimas muertes, se vacia cuando se consulta
   final List<Player> _lastDeaths = [];
 
+  /// Ciclo del juego
+  final GameCycle _gameCycle = GameCycle();
+
   /// Guarda un conjunto de jugadores clasificados por su Rol
   Game({required Set<Player> players}) : id = numGamesCreated {
     for (var player in players) {
@@ -29,11 +33,11 @@ class Game extends ChangeNotifier {
   Set<Player> get deadPlayers => Set.unmodifiable(_deadPlayers.keys);
   Set<Player> get alivePlayers => Set.unmodifiable(_alivePlayers.values);
 
-  Set<Player> get villagerPlayers => getPlayersOfRol(Rol.villager);
+  Set<Player> get villagerPlayers => getPlayersNotOfRol(Rol.wolf);
   Set<Player> get wolfPlayers => getPlayersOfRol(Rol.wolf);
 
   /// Roles activos por la noche que deben tomar una decision
-  Set<Rol> get activeRols => _alivePlayers.keys.toSet();
+  Set<Rol> get nightActiveRols => _alivePlayers.keys.toSet();
 
   // Condiciones de victoria:
   bool get wolfsWinCondition => villagerPlayers.isEmpty;
@@ -72,7 +76,6 @@ class Game extends ChangeNotifier {
       }
     }
     _lastDeaths.clear();
-    notifyListeners();
     return reports;
   }
 
@@ -89,4 +92,21 @@ class Game extends ChangeNotifier {
     // No estaba muerto, estaba de parranda
     return false;
   }
+
+  //////////////////////////////////////////////////////////////////
+  // CICLO DE JUEGO
+  Cycle get currentCycle => _gameCycle.currentCycle;
+  Widget get currentCyclePage => _gameCycle.currentCyclePage;
+  String get currentCycleString => _gameCycle.toString();
+
+  endNight() {
+    _gameCycle.next();
+    notifyListeners();
+  }
+
+  endDay() {
+    _gameCycle.next();
+    notifyListeners();
+  }
+  //////////////////////////////////////////////////////////////////
 }

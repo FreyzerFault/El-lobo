@@ -6,25 +6,17 @@ class DayNightSummary extends StatelessWidget {
   final String msg;
   final IconData icon;
   final List<DeathReport> deathReports;
-  final Function() next;
 
   const DayNightSummary(
       {Key? key,
       required this.icon,
       required this.msg,
-      this.deathReports = const [], required this.next})
+      this.deathReports = const []})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: ElevatedButton(
-        onPressed: next,
-        child: const Text("Siguiente"),
-    ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Center(
+    return Center(
         child: ListView(
           children: [
             Icon(
@@ -46,7 +38,6 @@ class DayNightSummary extends StatelessWidget {
             const SizedBox(height: 50,),
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -7,16 +7,17 @@ void main() {
   runApp(const ElLoboApp());
 }
 
+/// Pantalla de Error, Aparece cuando se realiza un throw
 Widget _errorBuilder(FlutterErrorDetails details) => Material(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
+  child: ListView(
+    shrinkWrap: true,
     children: [
       Text(
         details.exceptionAsString(),
         style: const TextStyle(
-          fontSize: 30,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: Colors.red,
         ),
       ),
     ],

@@ -2,14 +2,11 @@ import 'package:el_lobo/components/components.dart';
 import 'package:el_lobo/screens/game_screens/vote_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
-import 'package:el_lobo/el_lobo_icons.dart';
+import 'package:el_lobo/utils/el_lobo_icons.dart';
+import 'package:provider/provider.dart';
 
 class DayScreen extends StatefulWidget {
-  final Game game;
-  final Function() onDayEnds;
-
-  const DayScreen({Key? key, required this.game, required this.onDayEnds})
-      : super(key: key);
+  const DayScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DayScreenState();
@@ -18,83 +15,46 @@ class DayScreen extends StatefulWidget {
 class _DayScreenState extends State<DayScreen> {
   int index = 0;
 
-  void next() {
-    setState(index < widget.game.alivePlayers.length
-
-        // Si aun quedan paginas continua
-        ? () => index++
-
-        // Si es la ultima pagina termina el dia
-        : widget.onDayEnds);
+  next(BuildContext context) {
+    // TODO Matar al que reciba mas votos y añadir Pagina de "Ha sido Linchado"
+    // Pasa al siguiente voto si aun quedan
+    if (index < Provider.of<Game>(context, listen: false).alivePlayers.length) {
+      setState(() =>index++);
+    } else {
+      // Si no hay mas votos termina el dia
+      Provider.of<Game>(context, listen: false).endDay();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton(
-        onPressed: next,
+        onPressed: () => next(context),
         child: const Text("Siguiente"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: IndexedStack(
+      body: Consumer<Game>(builder: (context, game, child) => IndexedStack(
         index: index,
         children: [
           DayNightSummary(
               icon: ElLoboIcons.sun,
               msg:
-                  "\"El pueblo se despierta y se reune en la plaza del pueblo...\"",
-              next: next,
-              deathReports: [
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byWolf,
-                    subjectPlayer: widget.game.wolfPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                ...widget.game.lastDeathReports,
-              ]),
-          ... _buildVoteScreens(),
+              "\"El pueblo se despierta y se reune en la plaza del pueblo...\"",
+              deathReports: game.lastDeathReports.toList(),),
+          ... _buildVoteScreens(game.alivePlayers),
         ],
       ),
-    );
+    ));
   }
 
-  List<VoteScreen> _buildVoteScreens() {
+  List<VoteScreen> _buildVoteScreens(Set<Player> players) {
     List<VoteScreen> screens = List.empty(growable: true);
 
-    for (Player player in widget.game.alivePlayers) {
+    for (Player player in players) {
       screens.add(VoteScreen(
         votingPlayer: player,
-        voteList: widget.game.alivePlayers.difference({player}),
+        voteList: players.difference({player}),
       ));
     }
     return screens;

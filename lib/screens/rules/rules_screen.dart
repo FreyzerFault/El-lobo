@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:el_lobo/el_lobo_icons.dart';
+import 'package:el_lobo/utils/el_lobo_icons.dart';
 import 'package:el_lobo/model/model.dart';
 
 class RulesScreen extends StatelessWidget {
-  RulesScreen({Key? key}) : super(key: key);
+  const RulesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,10 @@
 import 'package:el_lobo/components/components.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RolsScreen extends StatefulWidget {
-  final AppManager manager;
-
-  const RolsScreen({Key? key, required this.manager}) : super(key: key);
+  const RolsScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RolsScreenState();
@@ -14,6 +13,9 @@ class RolsScreen extends StatefulWidget {
 class _RolsScreenState extends State<RolsScreen> {
   @override
   Widget build(BuildContext context) {
+    // Consultamos el Conjunto de Roles disponibles una sola vez:
+    Iterable<Rol> rols = Provider.of<AppManager>(context, listen: false).rolsInGame.keys;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -26,6 +28,17 @@ class _RolsScreenState extends State<RolsScreen> {
             icon: const Icon(Icons.shuffle),
           ),
         ],
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          // Boton ATRAS
+          onPressed:  () {
+            // Asigna los roles a cada Jugador al salir
+            Provider.of<AppManager>(context, listen: false).assignRols2Players();
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,13 +55,12 @@ class _RolsScreenState extends State<RolsScreen> {
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      final rol = Rol.allRols.elementAt(index);
-                      return RolCard(
+                      final rol = rols.elementAt(index);
+                      return Consumer<AppManager>(builder: (context, manager, child) => RolCard(
                         rol: rol,
-                        num: widget.manager.numRols(rol),
-                        numVillagers: widget.manager.numRols(Rol.villager),
-                        onRolUpdate: () => setState(() {}),
-                      );
+                        num: manager.numRols(rol),
+                        numVillagers: manager.numRols(Rol.villager),
+                      ));
                     },
                     childCount: 2,
                   ),
@@ -63,15 +75,14 @@ class _RolsScreenState extends State<RolsScreen> {
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final rol = Rol.allRols.elementAt(index + 2);
-                    return RolCard(
+                    final rol = rols.elementAt(index + 2);
+                    return Consumer<AppManager>(builder: (context, manager, child) => RolCard(
                       rol: rol,
-                      num: widget.manager.numRols(rol),
-                      numVillagers: widget.manager.numRols(Rol.villager),
-                      onRolUpdate: () => setState(() {}),
-                    );
+                      num: manager.numRols(rol),
+                      numVillagers: manager.numRols(Rol.villager),
+                    ));
                   },
-                  childCount: Rol.allRols.length - 2,
+                  childCount: rols.length - 2,
                 ),
               )
             ],
@@ -83,7 +94,6 @@ class _RolsScreenState extends State<RolsScreen> {
 
   void shuffle() {
     // Reseteamos los Roles y los asignamos de forma aleatoria
-    widget.manager.shuffleRols();
-    setState(() {});
+    setState(() => Provider.of<AppManager>(context, listen: false).shuffleRols());
   }
 }

@@ -14,8 +14,8 @@ class PlayerInfoScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        color: player.getStatusMainColor().withOpacity(.3),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+          color: player.getStatusMainColor().withOpacity(.3),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -44,11 +44,13 @@ class PlayerInfoScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              Expanded(
+                  child: Text(
                 player.rol!.name,
                 style: Theme.of(context).textTheme.titleLarge,
                 textScaleFactor: 4,
-              ),
+                    textAlign: TextAlign.center,
+              )),
             ],
           )),
     );

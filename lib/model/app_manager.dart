@@ -18,15 +18,15 @@ class AppManager extends ChangeNotifier {
     Player(name: "Andrea", avatarPicName: ""),
     Player(name: "Rivi", avatarPicName: ""),
     Player(name: "Luis", avatarPicName: ""),
+    Player(name: "Juan", avatarPicName: ""),
+    Player(name: "Pepe", avatarPicName: ""),
+    Player(name: "Jose", avatarPicName: ""),
+    Player(name: "Monra", avatarPicName: ""),
+    Player(name: "JC", avatarPicName: ""),
+    Player(name: "Collado", avatarPicName: ""),
   };
-  static Map<Rol, int> defaultRols = <Rol, int>{
-    Rol.wolf: 1,
-    Rol.villager: 1,
-    Rol.seer: 1,
-    Rol.witch: 1,
-    Rol.cupid: 1,
-    Rol.hunter: 1,
-  };
+  static Map<Rol, int> defaultRols = Map.fromIterables(
+      Rol.allRols, Iterable.generate(Rol.allRols.length, (_) => 1));
   ///////////////////////////////////////////////////////////
 
   // Se crea con la lista de todos los roles a 0
@@ -34,27 +34,32 @@ class AppManager extends ChangeNotifier {
       /*
       : _rolsInGame = Map.fromIterables(
             Rol.allRols, Iterable.generate(Rol.allRols.length, (i) => 0));
-
-   */
+      */
       : _rolsInGame = defaultRols,
         _playersInGame = defaultPlayers,
-        _players = defaultPlayers;
+        _players = defaultPlayers {
+    assignRols2Players();
+  }
 
   // Listas mutables
   final Map<Rol, int> _rolsInGame; // Numero de copias de cada rol
   Set<Player> _playersInGame = defaultPlayers; // Jugadores que juegan
   Set<Player> _players = defaultPlayers; // Biblioteca de Jugadores
 
-  // Lista de Roles solo de Lectura
+  // Listas solo de Lectura
   Map<Rol, int> get rolsInGame => Map.unmodifiable(_rolsInGame);
   Set<Player> get playersInGame => Set.unmodifiable(_playersInGame);
   Set<Player> get players => Set.unmodifiable(_players);
-  set playersInGame(Set<Player> newPlayers) => _playersInGame = newPlayers;
-  set players(Set<Player> newPlayers) => _players = newPlayers;
+  set playersInGame(Set<Player> newPlayers) =>
+      _playersInGame = Set.from(newPlayers);
+  set players(Set<Player> newPlayers) => _players = Set.from(newPlayers);
 
-  bool enoughPlayers() {
-    return _playersInGame.length >= minPlayersToPlay;
-  }
+  /// Puede empezar el Juego solo si:
+  /// hay al menos el Mínimo de Jugadores permitido
+  /// y todos los jugadores tienen un rol asignado
+  bool get canStartGame =>
+      _playersInGame.length >= minPlayersToPlay &&
+      _playersInGame.every((player) => player.rol != null);
 
   bool playerInGame(Player player) {
     return _playersInGame.contains(player);
@@ -68,7 +73,7 @@ class AppManager extends ChangeNotifier {
     return 0;
   }
 
-  int totalNumRols() {
+  int get totalNumRols {
     int numRols = 0;
     _rolsInGame.forEach((key, value) => numRols += value);
     return numRols;
@@ -103,7 +108,7 @@ class AppManager extends ChangeNotifier {
   // Elimina un rol sin romper el ratio Aldeano : Lobo,
   // si elimina un aldeano y no hay elimina cualquier otro rol especial
   void deleteAnyRol() {
-    if (ratioVillagersByWolf() < idealRatio) {
+    if (ratioVillagersByWolf < idealRatio) {
       deleteRol(Rol.wolf);
     } else {
       for (Rol rol in Rol.allRols) {
@@ -120,7 +125,7 @@ class AppManager extends ChangeNotifier {
   // Añade un rol sin romper el ratio Aldeano : Lobo
   void addAnyRol() {
     // Si el ratio se pasa de lo ideal añadimos un lobo
-    if (ratioVillagersByWolf() >= idealRatio) {
+    if (ratioVillagersByWolf >= idealRatio) {
       addRol(Rol.wolf);
     } else {
       addRol(Rol.villager);
@@ -129,7 +134,7 @@ class AppManager extends ChangeNotifier {
 
   // Ratio ente Aldeano : Lobo que debe haber, ¿Se cumple?
   static const double idealRatio = 4; // 4:1
-  double ratioVillagersByWolf() {
+  double get ratioVillagersByWolf {
     final rols = Rol.allRols;
     int numVillagers = 0;
     int numWolfs = 0;
@@ -148,13 +153,14 @@ class AppManager extends ChangeNotifier {
   }
 
   void updateRols() {
-    int numRols = totalNumRols();
+    int numRols = totalNumRols;
     // Si faltan roles se añaden
     if (numRols < _playersInGame.length) {
       for (int i = 0; i < _playersInGame.length - numRols; i++) {
         addAnyRol();
       }
-    } else {
+      // Y si sobran se eliminan
+    } else if (numRols > _playersInGame.length) {
       for (int i = 0; i < numRols - _playersInGame.length; i++) {
         deleteAnyRol();
       }
@@ -194,7 +200,7 @@ class AppManager extends ChangeNotifier {
   }
 
   shuffleRols() {
-    if (totalNumRols() == 0) {
+    if (totalNumRols == 0) {
       return;
     }
 
@@ -221,7 +227,6 @@ class AppManager extends ChangeNotifier {
         rolList.add(entry.key);
       }
     }
-
     // Vamos cogiendo uno aleatorio, lo asignamos al jugador y lo eliminamos
     for (var player in _playersInGame) {
       int index = rand.nextInt(rolList.length);
@@ -229,5 +234,10 @@ class AppManager extends ChangeNotifier {
       rolList.removeAt(index);
     }
     return _playersInGame;
+  }
+
+  @override
+  String toString() {
+    return "Jugadores: $players\nRoles: $rolsInGame\nJugadores seleccionados: $playersInGame";
   }
 }

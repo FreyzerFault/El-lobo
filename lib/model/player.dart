@@ -142,6 +142,6 @@ class Player {
   int get hashCode => id.hashCode;
 
   String toString() {
-    return "Player: $name ${rol != null ? "is $rol}" : ""}";
+    return "$name${rol != null ? " ($rol)" : ""}";
   }
 }

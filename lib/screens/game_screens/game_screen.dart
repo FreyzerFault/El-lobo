@@ -1,56 +1,35 @@
-import 'package:el_lobo/screens/game_screens/day_screen.dart';
-import 'package:el_lobo/screens/game_screens/night_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
 import 'package:provider/provider.dart';
-import '../screens.dart';
+import 'package:el_lobo/screens/screens.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key? key,}) : super(key: key);
+  const GameScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _GameScreenState();
 }
 
-// Secciones del juego (escalable a mas secciones como eventos varios)
-enum GameSection {
-  night,
-  day,
-}
+
 
 class _GameScreenState extends State<GameScreen> {
-  GameSection section = GameSection.night;
-  int numDays = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title:
-            Text("${section == GameSection.night ? "Noche" : "Dia"} $numDays"),
+            Consumer<Game>(builder: (context, game, child) => Text(game.currentCycleString),),
         actions: [
           // Boton REGLAS
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => RulesScreen()));
-              },
+              onPressed: () => Navigator.of(context).pushNamed('/rules'),
               icon: const Icon(Icons.menu_book_rounded)),
 
           // Boton JUGADORES
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Consumer<Game>(
-                            builder: (context, game, child) =>
-                                PlayersSummaryScreen(
-                                    players: game.allPlayers))));
-              },
+              onPressed: () => Navigator.of(context).pushNamed('/game/info',
+                  arguments: Provider.of<Game>(context, listen: false)),
               icon: const Icon(Icons.people))
         ],
       ),
@@ -69,32 +48,19 @@ class _GameScreenState extends State<GameScreen> {
       } else if (game.wolfsWinCondition) {
         return const WinScreen(winType: WinType.wolfs);
       }
-
-      // Seleccionamos una de las pantallas segun la seccion del juego
-      // en la que nos encontramos
-      switch (section) {
-        case GameSection.night:
-          return NightScreen(
-            game: game,
-            onNightEnds: nextSection,
-          );
-        case GameSection.day:
-          return DayScreen(
-            game: game,
-            onDayEnds: nextSection,
-          );
-      }
-    });
+      return game.currentCyclePage;
+    },
+   );
   }
 
   void nextSection() {
     setState(() {
-      section =
-          GameSection.values[(section.index + 1) % GameSection.values.length];
-
-      if (section == GameSection.night) {
-        numDays++;
-      }
+      // section =
+      //     GameSection.values[(section.index + 1) % GameSection.values.length];
+      //
+      // if (section == GameSection.night) {
+      //   numDays++;
+      // }
     });
   }
 }

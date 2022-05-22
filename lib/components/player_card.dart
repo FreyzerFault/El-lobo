@@ -9,25 +9,32 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration:
-          BoxDecoration(color: player.getStatusMainColor().withOpacity(.3)),
-      height: 150,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildPlayer(context),
-          _buildStatusColumn(context),
-          _buildRol(context),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20,),
+      child: Material(
+        elevation: 5,
+        shadowColor: Colors.black,
+        borderOnForeground: true,
+        color: player.getStatusMainColor().withOpacity(.3),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        child: Container(
+          height: 160,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildPlayer(context),
+              _buildStatusColumn(context),
+              _buildRol(context),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildPlayer(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fitHeight,
+    return Expanded(
       child: Column(
         children: [
           CircleAvatar(
@@ -63,6 +70,7 @@ class PlayerCard extends StatelessWidget {
     return Center(
       child: GridView.builder(
         shrinkWrap: true,
+        padding: const EdgeInsets.only(bottom: 30),
         itemCount: player.status.length,
         scrollDirection: Axis.horizontal,
         gridDelegate:
@@ -82,17 +90,20 @@ class PlayerCard extends StatelessWidget {
   }
 
   Widget _buildRol(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fitHeight,
+    return Expanded(
       child: Column(
         children: [
           Icon(
             player.rol!.icon,
             size: 80,
           ),
-          Text(
-            player.rol!.name,
-            style: Theme.of(context).textTheme.titleLarge,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              player.rol!.name,
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

@@ -1,9 +1,8 @@
-import 'package:el_lobo/screens/player_storage/edit_player_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:el_lobo/components/player_selectible.dart';
-import 'package:el_lobo/screens/screens.dart';
 import 'package:el_lobo/model/model.dart';
+import 'package:provider/provider.dart';
 
 enum SelectionMode { select, delete, love }
 
@@ -19,7 +18,8 @@ class PlayerGrid extends StatefulWidget {
       required this.players,
       this.selectionMode = SelectionMode.select,
       required this.selectedPlayers,
-      this.onLongTapEnabled = false, this.scrollable = false})
+      this.onLongTapEnabled = false,
+      this.scrollable = false})
       : super(key: key);
 
   @override
@@ -42,7 +42,9 @@ class _PlayerGridState extends State<PlayerGrid> {
     return OrientationBuilder(
       builder: (context, orientation) => GridView.builder(
           shrinkWrap: true,
-          physics: widget.scrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+          physics: widget.scrollable
+              ? const AlwaysScrollableScrollPhysics()
+              : const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           itemCount: widget.players.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -63,13 +65,14 @@ class _PlayerGridState extends State<PlayerGrid> {
                 },
                 // Al pulsar un tap largo se abre la pantalla de edicion
                 onLongPress: () => widget.onLongTapEnabled
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                EditPlayerScreen.update(
-                                  player,
-                                )))
+                    ? Navigator.of(context)
+                        .pushNamed('/players/update', arguments: [
+                          // Necesita un Jugador y una Funcion para actualizarlo
+                        player,
+                        (name, pic) =>
+                            Provider.of<AppManager>(context, listen: false)
+                                .updatePlayer(player, name, pic)
+                      ])
                     : null);
           }),
     );

@@ -2,14 +2,11 @@ import 'package:el_lobo/components/components.dart';
 import 'package:el_lobo/screens/game_screens/decision_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
-import 'package:el_lobo/el_lobo_icons.dart';
+import 'package:el_lobo/utils/el_lobo_icons.dart';
+import 'package:provider/provider.dart';
 
 class NightScreen extends StatefulWidget {
-  final Game game;
-  final Function() onNightEnds;
-
-  const NightScreen({Key? key, required this.game, required this.onNightEnds})
-      : super(key: key);
+  const NightScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NightScreenState();
@@ -17,66 +14,60 @@ class NightScreen extends StatefulWidget {
 
 class _NightScreenState extends State<NightScreen> {
   int index = 0;
+  Set<Player> selectedPlayers = {};
 
-  void next() {
-    setState(index < widget.game.activeRols.length
+  void next(BuildContext context) {
+    if (selectedPlayers.isNotEmpty) {
+      // TODO hacer lo propio segun el rol que toque
+      print(
+          "Victimas de ${Provider.of<Game>(context, listen: false).nightActiveRols.elementAt(index - 1)}: $selectedPlayers");
 
-        // Si aun quedan paginas continua
-        ? () => index++
-
-        // Si es la ultima pagina termina el dia
-        : widget.onNightEnds);
+      // Vacia los seleccionados para la siguiente decision
+      selectedPlayers.clear();
+    }
+    if (index <
+        Provider.of<Game>(context, listen: false).nightActiveRols.length) {
+      setState(() => index++);
+    } else {
+      Provider.of<Game>(context, listen: false).endNight();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton(
-      onPressed:
-      next,
-      child: const Text("Siguiente"),
-    ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: IndexedStack(
-        index: index,
-        children: [
-          DayNightSummary(
-              icon: ElLoboIcons.moon,
-              msg: "\"En un pueblecico perdido de la mano de dios...\"",
-              next: next,
-              deathReports: [
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byWolf,
-                    subjectPlayer: widget.game.wolfPlayers.first,
-                    subjectRol: Rol.wolf),
-                DeathReport(
-                    player: widget.game.villagerPlayers.first,
-                    cause: DeathCause.byLove,
-                    subjectPlayer: widget.game.villagerPlayers.first,
-                    subjectRol: Rol.wolf),
-                ...widget.game.lastDeathReports,
-              ]),
-          ..._buildDecisionScreens(),
-        ],
+        onPressed: () => next(context),
+        child: const Text("Siguiente"),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Consumer<Game>(
+          builder: (context, game, child) => IndexedStack(
+                index: index,
+                children: [
+                  DayNightSummary(
+                      icon: ElLoboIcons.moon,
+                      msg: "\"En un pueblecico perdido de la mano de dios...\"",
+                      deathReports: [
+                        ...game.lastDeathReports,
+                      ]),
+                  ..._buildDecisionScreens(game),
+                ],
+              )),
     );
   }
 
-  List<DecisionScreen> _buildDecisionScreens() {
+  List<DecisionScreen> _buildDecisionScreens(Game game) {
+    // Lista de pantallas de decision
     List<DecisionScreen> screens = List.empty(growable: true);
 
-    for (Rol rol in widget.game.activeRols) {
+    for (Rol rol in game.nightActiveRols) {
       screens.add(
         DecisionScreen(
           rol: rol,
-          game: widget.game,
-          onSubmit: (selectedPlayers) {
-            if (selectedPlayers.isNotEmpty) {
-              widget.game.killPlayer(selectedPlayers.first,
-                DeathReport.byDefault(player: selectedPlayers.first));
-            }
-          },
+          playersOfRol: game.getPlayersOfRol(rol),
+          targetPlayers: game.getPlayersNotOfRol(rol),
+          selectedPlayers: selectedPlayers,
         ),
       );
     }

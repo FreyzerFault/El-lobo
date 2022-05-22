@@ -3,17 +3,18 @@ import 'package:el_lobo/model/model.dart';
 
 class EditPlayerScreen extends StatefulWidget {
   final Function(Player player)? onCreate;
+  final Function(String name, String pic)? onUpdate;
   final Player? player;
 
   final bool isUpdating;
 
-  const EditPlayerScreen._({this.player, Key? key, this.onCreate})
+  const EditPlayerScreen._({this.player, Key? key, this.onCreate, this.onUpdate})
       : isUpdating = (player != null),
         super(key: key);
 
   // Solo se puede construir de dos maneras, pasandole el jugador para actualizarlo
-  factory EditPlayerScreen.update(Player player) {
-    return EditPlayerScreen._(player: player,);
+  factory EditPlayerScreen.update(Player player, Function(String name, String pic) onUpdate) {
+    return EditPlayerScreen._(player: player, onUpdate: onUpdate,);
   }
   // O pasandole la funcion onCreate para actualizar el PlayerGrid una vez se
   // añada el jugador
@@ -70,7 +71,7 @@ class _EditPlayerScreenState extends State<EditPlayerScreen> {
             icon: const Icon(Icons.check),
             onPressed: () {
               widget.isUpdating
-                  ? AppManager.instance.updatePlayer(widget.player!, _nameController.text, "")
+                  ? widget.onUpdate!(_name, "")
                   : widget.onCreate!(
                       Player(name: _name, avatarPicName: ""));
               Navigator.pop(context);

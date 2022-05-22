@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
+import 'package:provider/provider.dart';
 
 class RolCard extends StatefulWidget {
   final Rol rol;
   final int num;
   final int numVillagers;
 
-  final Function() onRolUpdate;
-
   const RolCard(
       {Key? key,
       required this.rol,
       required this.num,
-      required this.numVillagers,
-      required this.onRolUpdate})
+      required this.numVillagers,})
       : super(key: key);
 
   @override
@@ -28,7 +26,7 @@ class _RolCardState extends State<RolCard> {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -53,9 +51,9 @@ class _RolCardState extends State<RolCard> {
                   onPressed: (widget.rol == Rol.villager || widget.num == 0)
                       ? null
                       : () {
-                          AppManager.instance.deleteRol(widget.rol);
-                          AppManager.instance.addRol(Rol.villager);
-                          widget.onRolUpdate();
+                          AppManager manager = Provider.of<AppManager>(context, listen: false);
+                          manager.deleteRol(widget.rol);
+                          manager.addRol(Rol.villager);
                         },
                   icon: widget.rol == Rol.villager
                       ? Container()
@@ -71,9 +69,9 @@ class _RolCardState extends State<RolCard> {
                       (widget.rol == Rol.villager || widget.numVillagers == 0)
                           ? null
                           : () {
-                              AppManager.instance.addRol(widget.rol);
-                              AppManager.instance.deleteRol(Rol.villager);
-                              widget.onRolUpdate();
+                              AppManager manager = Provider.of<AppManager>(context, listen: false);
+                              manager.addRol(widget.rol);
+                              manager.deleteRol(Rol.villager);
                             },
                   icon: widget.rol == Rol.villager
                       ? Container()
