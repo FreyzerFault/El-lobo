@@ -1,4 +1,4 @@
-# el_lobo
+# El Lobo
 
 Proyecto de Flutter para la App "El Lobo"
 
