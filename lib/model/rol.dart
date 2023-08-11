@@ -37,9 +37,14 @@ class Rol
     Rol._(id: 6, name: "Protector", icon: ElLoboIcons.icons[6]),
     Rol._(id: 7, name: "Anciano", icon: ElLoboIcons.icons[7]),
     Rol._(id: 8, name: "Niña", icon: ElLoboIcons.icons[8]),
-    Rol._(id: 9, name: "Joker", icon: ElLoboIcons.icons[9]),
-    Rol._(id: 10, name: "Tonto del Pueblo", icon: ElLoboIcons.icons[10]),
-    Rol._(id: 11, name: "Niño Lobo", icon: ElLoboIcons.icons[11]),
+    Rol._(id: 9, name: "Tonto del Pueblo", icon: ElLoboIcons.icons[9]),
+    Rol._(id: 10, name: "Confesor", icon: ElLoboIcons.icons[10]),
+    Rol._(id: 11, name: "Institutriz", icon: ElLoboIcons.icons[11]),
+    Rol._(id: 12, name: "Ladrón", icon: ElLoboIcons.icons[12]),
+    Rol._(id: 13, name: "Jester", icon: ElLoboIcons.icons[13]),
+    Rol._(id: 14, name: "Flautista", icon: ElLoboIcons.icons[14]),
+    Rol._(id: 15, name: "Niño Salvaje", icon: ElLoboIcons.icons[15]),
+    Rol._(id: 16, name: "Lobo Invocador", icon: ElLoboIcons.icons[16]),
   };
 
   // Para comprobar que dos roles son iguales y hacer un set se usa el id
