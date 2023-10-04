@@ -10,19 +10,19 @@ A día de hoy no está completada por falta de recursos y tiempo.
 
 ## FEATURES
 
-✅ Seleccionar Jugadores
-✅ Añadir y Eliminar Jugadores de la lista de selección
-✅ Añadir Fotos de Perfil a cada jugador
-✅ Seleccionar Roles
-✅ Seleccionar Roles de forma aleatoria (de forma balanceada)
-✅ Ver Reglas del Juego
-✅ Seleccionar Jugadores
-✅ Bucle del Juego
-✅ Pantalla de Estado de la Partida
-✅ Selección de Acción para cada Rol despertado
-✅ Pantalla votaciones
-⬛ Lógica y acciones disponibles de cada Rol
-⬛ Game Over
+- ✅ Seleccionar Jugadores
+- ✅ Añadir y Eliminar Jugadores de la lista de selección
+- ✅ Añadir Fotos de Perfil a cada jugador
+- ✅ Seleccionar Roles
+- ✅ Seleccionar Roles de forma aleatoria (de forma balanceada)
+- ✅ Ver Reglas del Juego
+- ✅ Seleccionar Jugadores
+- ✅ Bucle del Juego
+- ✅ Pantalla de Estado de la Partida
+- ✅ Selección de Acción para cada Rol despertado
+- ✅ Pantalla votaciones
+- ⬛ Lógica y acciones disponibles de cada Rol
+- ⬛ Game Over
 
 ## ¿Qué es El Lobo?
 
