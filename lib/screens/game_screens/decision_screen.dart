@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:el_lobo/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:el_lobo/model/model.dart';
@@ -72,11 +70,11 @@ class _DecisionScreenState extends State<DecisionScreen> {
                             ? LinearGradient(
                                 colors: [
                                   Theme.of(context)
-                                      .backgroundColor
+                                      .colorScheme.background
                                       .withOpacity(0),
-                                  Theme.of(context).backgroundColor,
+                                  Theme.of(context).colorScheme.background,
                                   Theme.of(context)
-                                      .backgroundColor
+                                      .colorScheme.background
                                       .withOpacity(0),
                                 ],
                                 stops: const [0, 0.5, 1],

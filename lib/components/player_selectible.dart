@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
-import 'package:flutter_profile_picture/extends/colors/color.dart';
-import 'package:flutter_profile_picture/extends/colors/constant.dart';
 
 import 'package:el_lobo/model/model.dart';
 

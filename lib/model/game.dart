@@ -70,7 +70,7 @@ class Game extends ChangeNotifier {
     List<DeathReport> reports = [];
     for (Player player in _lastDeaths) {
       if (!_deadPlayers.containsKey(player)) {
-        print("No existe el reporte de muerte de $player}");
+          print("No existe el reporte de muerte de $player}");
       } else {
         reports.add(_deadPlayers[player]!);
       }

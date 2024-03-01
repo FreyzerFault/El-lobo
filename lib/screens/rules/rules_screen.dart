@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:el_lobo/utils/el_lobo_icons.dart';
 import 'package:el_lobo/model/model.dart';
 
 class RulesScreen extends StatelessWidget {

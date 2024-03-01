@@ -34,13 +34,13 @@ class ElLoboIcons {
   static const IconData oldman = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData witch = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData villager = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData child_wolf = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData childWolf = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData fool = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData institutriz = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ladron = IconData(0xe822, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData lobo_invocador = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData loboInvocador = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData confesor = IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData flautista = IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   
-  static const List<IconData> icons = [villager, wolf, seer, cupid, witch, hunter, protector, oldman, girl, fool, confesor, institutriz, ladron, joker, flautista, child_wolf, lobo_invocador, potion];
+  static const List<IconData> icons = [villager, wolf, seer, cupid, witch, hunter, protector, oldman, girl, fool, confesor, institutriz, ladron, joker, flautista, childWolf, loboInvocador, potion];
 }

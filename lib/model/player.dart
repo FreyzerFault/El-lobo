@@ -141,6 +141,7 @@ class Player {
   @override
   int get hashCode => id.hashCode;
 
+  @override
   String toString() {
     return "$name${rol != null ? " ($rol)" : ""}";
   }

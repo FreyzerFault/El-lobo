@@ -87,7 +87,7 @@ class _PlayerScreenState extends State<PlayersScreen> {
     if (onDeleteMode) {
       // Boton ELIMINAR JUGADORES
       return FloatingActionButton(
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
         child: const Icon(
           Icons.remove,
         ),
